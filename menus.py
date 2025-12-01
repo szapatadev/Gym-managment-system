@@ -2,6 +2,7 @@ import functions
 import members
 import asistances
 import workouts
+import payments
 
 class menu:
     def principal():
@@ -16,7 +17,7 @@ class menu:
         except:
             print("Please enter a valid value\n")
 
-    def member_managment(_list):
+    def member_managment(_list,payments_list):
         while True:
             try:
                 system = int(input("1 - Register a member\n2 - Show all members\n3 - Search a member by id\n4 - Renew the plan with payment\n5 - Quit\nWhat do you want to do? "))
@@ -56,7 +57,14 @@ class menu:
                             id = input("Enter the member id: ").lower()
                             search, i = functions.ver.search(_list,"id",id)
                             if search:
-                                members.members.renew(_list,i)
+                                while True:
+                                    method = input("Enter the payment method (Cash, Card, Transfer): ").lower()
+                                    if method == "cash" or method == "card" or method == "transfer":
+                                        break
+                                    else:
+                                        print("Enter a valid value\n")
+                                if payments.payments.payment(payments_list,_list,method,i):
+                                    members.members.renew(_list,i)
                             else:
                                 print(i)
                     else:

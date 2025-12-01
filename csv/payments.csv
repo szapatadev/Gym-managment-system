@@ -1,0 +1,2 @@
+payment_id,member_id,member_name,amount,payment_date,payment_month,payment_year,method
+eb615,3582f,santiago,49.99,2025-12-01,12,2025,card
