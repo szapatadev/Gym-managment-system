@@ -1,5 +1,7 @@
 import functions
 import members
+import asistances
+import workouts
 
 class menu:
     def principal():
@@ -62,7 +64,7 @@ class menu:
             except:
                 print("Please enter a valid value\n")
 
-    def asistances():
+    def asistances(asistance_list,member_list):
         while True:
             try:
                 system = int(input("1 - Check in/out/\n2 - History per member\n3 - Quit\nWhat do you want to do? "))
@@ -70,15 +72,33 @@ class menu:
                     print("Please enter a valid value\n")
                 else:
                     if system == 1:
-                        print("Check in/out/")
+                        if functions.ver.not_empthy(member_list):
+                            id = input("Enter the member id: ").lower()
+                            search, i = functions.ver.search(member_list,"id",id)
+                            if search:
+                                while True:
+                                    type = input("Enter the type Check in/out (Just enter in or out): ").lower()
+                                    if type == "in" or type == "out":
+                                        break
+                                    else:
+                                        print("Enter a valid value\n")
+                                asistances.asistances.check_in_out(asistance_list,member_list,i,type)
+                            else:
+                                print(i)
                     elif system == 2:
-                        print("History per member")
+                        if functions.ver.not_empthy(asistance_list):
+                            id = input("Enter the member id: ").lower()
+                            search, i = functions.ver.search(member_list,"id",id)
+                            if search:
+                                asistances.asistances.show(asistance_list,member_list,i)
+                            else:
+                                print(i)
                     else:
                         break
             except:
                 print("Please enter a valid value\n")
 
-    def workouts():
+    def workouts(_list,member_list):
         while True:
             try:
                 system = int(input("1 - Record a workout\n2 - Calculate calories\n3 - Quit\nWhat do you want to do? "))
@@ -86,9 +106,34 @@ class menu:
                     print("Please enter a valid value\n")
                 else:
                     if system == 1:
-                        print("Record a workout")
+                        if functions.ver.not_empthy(member_list):
+                            id = input("Enter the member id: ").lower()
+                            search, i = functions.ver.search(member_list,"id",id)
+                            if search:
+                                while True:
+                                    duration = int(input("How much the workout last? "))
+                                    if duration < 0:
+                                        print("Enter a valid value\n")
+                                    else:
+                                        break
+                                while True:
+                                    type = input("Enter the workout type (Cardio, Strong, Hit, Stretch): ").lower()
+                                    if type == "cardio" or type == "strong" or type == "hit" or type == "stretch":
+                                        break
+                                    else:
+                                        print("Plese enter a valid value\n")
+                                workouts.workout.add(_list,member_list,i,duration,type)
+                        else:
+                            print(i)
                     elif system == 2:
-                        print("Calculate calories")
+                        if functions.ver.not_empthy(_list):
+                            id = input("Enter the member id: ").lower()
+                            search, i = functions.ver.search(member_list,"id",id)
+                            if search:
+                               total_calories = workouts.workout.calories(_list,member_list,i) 
+                               print(f"Total calories of the member: {total_calories}\n")
+                            else:
+                                print(i)
                     else:
                         break
             except:
